@@ -1,0 +1,554 @@
+/* ============================================================
+   styles.css  –  SALIM SOS
+   ============================================================ */
+
+/* ── Google Fonts ─────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap');
+
+/* ── Tokens ───────────────────────────────────────────────── */
+:root {
+  --red:      #FF1C1C;
+  --red-dark: #8B0000;
+  --red-glow: rgba(255,28,28,0.45);
+  --green:    #00FF87;
+  --blue:     #4FC3F7;
+  --bg:       #050a0e;
+  --bg2:      #0d1117;
+  --white:    #F4F4F5;
+  --grey:     #6b7280;
+  --font-d:   'Bebas Neue', sans-serif;
+  --font-m:   'Share Tech Mono', monospace;
+  --font-b:   'Rajdhani', sans-serif;
+  --radius:   10px;
+}
+
+/* ── Base ─────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  width: 100%; min-height: 100vh;
+  background: var(--bg);
+  color: var(--white);
+  font-family: var(--font-b);
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior: none;
+  user-select: none;
+}
+
+/* ── ───────────── KEYFRAMES ────────────────────────────── ── */
+
+/* Full-screen red flash */
+@keyframes screenFlash {
+  0%,  49% { background-color: #2a0000; }
+  50%, 100% { background-color: #0e0000; }
+}
+
+/* Card border flash */
+@keyframes borderFlash {
+  0%,  49% { border-color: var(--red); box-shadow: 0 0 50px var(--red-glow); }
+  50%, 100% { border-color: #550000;  box-shadow: 0 0 12px rgba(255,28,28,0.1); }
+}
+
+/* Scanline sweep */
+@keyframes scanline {
+  from { top: -4px; }
+  to   { top: 100vh; }
+}
+
+/* Pulsing SOS button rings */
+@keyframes ringPulse {
+  0%   { transform: scale(0.92); opacity: 1; }
+  100% { transform: scale(1.45); opacity: 0; }
+}
+
+/* Main button glow pulse */
+@keyframes btnGlow {
+  0%,100% { box-shadow: 0 0 0 5px var(--red), 0 0 40px var(--red-glow); }
+  50%      { box-shadow: 0 0 0 10px #FF3333,  0 0 70px rgba(255,28,28,0.7); }
+}
+
+/* Urgent text blink */
+@keyframes urgentBlink {
+  0%,100% { opacity: 1; }
+  50%      { opacity: 0.4; }
+}
+
+/* Dot pulse */
+@keyframes dotPulse {
+  0%,100% { opacity: 1; }
+  50%      { opacity: 0.25; }
+}
+
+/* Slide up entrance */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Fade in */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Grid pan background */
+@keyframes gridPan {
+  from { background-position: 0 0; }
+  to   { background-position: 40px 40px; }
+}
+
+/* ── ──────────────── LAYOUT ─────────────────────────────── ── */
+
+/* App wrapper */
+#app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding: 0 16px 48px;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Animated grid overlay */
+.grid-bg {
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,0,0,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,0,0,0.04) 1px, transparent 1px);
+  background-size: 38px 38px;
+  animation: gridPan 18s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Scanline bar */
+.scanline {
+  position: fixed;
+  left: 0; width: 100%; height: 4px;
+  background: linear-gradient(90deg, transparent, rgba(255,28,28,0.85), transparent);
+  animation: scanline 2s linear infinite;
+  z-index: 100;
+  pointer-events: none;
+}
+
+/* ── ───────────── ROLE SELECTOR ────────────────────────── ── */
+
+.role-selector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding-top: 48px;
+  width: 100%;
+  max-width: 500px;
+  animation: slideUp 0.55s ease both;
+  position: relative;
+  z-index: 2;
+}
+
+.sos-logo {
+  display: flex;
+  gap: 2px;
+  margin-bottom: 4px;
+}
+.sos-logo span {
+  font-family: var(--font-d);
+  font-size: clamp(3.5rem, 12vw, 5.5rem);
+  line-height: 1;
+  animation: urgentBlink 1.2s infinite;
+}
+.sos-logo .s1 { color: var(--red);  animation-delay: 0s; }
+.sos-logo .o  { color: #FF6600;     animation-delay: 0.4s; }
+.sos-logo .s2 { color: var(--red);  animation-delay: 0.8s; }
+
+.app-title {
+  font-family: var(--font-d);
+  font-size: clamp(1.6rem, 5vw, 2.8rem);
+  letter-spacing: 0.28em;
+  color: var(--white);
+}
+.app-subtitle {
+  font-family: var(--font-m);
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  color: var(--red);
+  margin-bottom: 8px;
+}
+
+.divider {
+  width: 60px; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--red), transparent);
+  margin: 0 auto 8px;
+}
+
+.role-desc {
+  font-size: 0.95rem;
+  color: rgba(255,255,255,0.45);
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* Role cards */
+.role-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  width: 100%;
+}
+@media (max-width: 400px) { .role-cards { grid-template-columns: 1fr; } }
+
+.role-card {
+  padding: 24px 18px;
+  border-radius: var(--radius);
+  background: var(--bg2);
+  border: 1px solid rgba(255,255,255,0.07);
+  cursor: pointer;
+  text-align: left;
+  transition: transform 0.18s, box-shadow 0.18s;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.role-card:hover { transform: translateY(-3px); }
+.role-card:active { transform: scale(0.97); }
+
+.role-card.sender  { border-color: rgba(255,28,28,0.3); }
+.role-card.sender:hover { box-shadow: 0 0 35px rgba(255,28,28,0.28); border-color: rgba(255,28,28,0.65); }
+.role-card.guardian { border-color: rgba(79,195,247,0.3); }
+.role-card.guardian:hover { box-shadow: 0 0 35px rgba(79,195,247,0.2); border-color: rgba(79,195,247,0.65); }
+
+.card-icon  { font-size: 2rem; }
+.card-role  { font-family: var(--font-m); font-size: 0.6rem; letter-spacing: 0.2em; color: var(--grey); }
+.card-name  { font-family: var(--font-d); font-size: 1.8rem; letter-spacing: 0.08em; line-height: 1; }
+.sender  .card-name  { color: var(--red); }
+.guardian .card-name { color: var(--blue); }
+.card-desc  { font-size: 0.88rem; color: rgba(255,255,255,0.52); line-height: 1.45; }
+.card-phone { font-family: var(--font-m); font-size: 0.72rem; color: rgba(255,255,255,0.28); }
+.card-enter { font-family: var(--font-m); font-size: 0.72rem; letter-spacing: 0.12em; margin-top: 8px; }
+.sender  .card-enter { color: var(--red); }
+.guardian .card-enter { color: var(--blue); }
+
+.sys-status {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-m);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.22);
+}
+
+/* ── ────────────── SENDER VIEW ──────────────────────────── ── */
+
+.sender-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  padding-top: 24px;
+  width: 100%;
+  max-width: 420px;
+  position: relative;
+  z-index: 2;
+  animation: slideUp 0.5s ease both;
+}
+
+/* Emergency body flash */
+body.emergency-active { animation: screenFlash 0.65s infinite; }
+
+/* Back button */
+.back-btn {
+  align-self: flex-start;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.14);
+  color: rgba(255,255,255,0.45);
+  font-family: var(--font-m);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  padding: 6px 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+.back-btn:hover { color: var(--white); border-color: rgba(255,255,255,0.4); }
+
+/* Patient badge */
+.patient-badge {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  padding: 10px 20px;
+  width: 100%;
+}
+.badge-name  { font-family: var(--font-d); font-size: 1.5rem; letter-spacing: 0.08em; color: var(--red); }
+.badge-phone { font-family: var(--font-m); font-size: 0.72rem; color: rgba(255,255,255,0.35); }
+
+/* GPS bar */
+.gps-bar {
+  font-family: var(--font-m);
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.42);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  letter-spacing: 0.03em;
+  align-self: flex-start;
+}
+
+/* Status dots */
+.dot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+.dot-green  { background: var(--green);  box-shadow: 0 0 7px var(--green); animation: dotPulse 2s infinite; }
+.dot-yellow { background: #FFB800; animation: dotPulse 0.75s infinite; }
+.dot-red    { background: var(--red);    box-shadow: 0 0 7px var(--red); }
+
+/* ── The SOS Button ─────────────────────────────────────────── */
+.sos-button-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 0 10px;
+}
+
+.sos-btn {
+  position: relative;
+  width: clamp(200px, 55vw, 260px);
+  height: clamp(200px, 55vw, 260px);
+  border-radius: 50%;
+  border: none;
+  background: radial-gradient(circle, #CC0000 0%, #880000 58%, #440000 100%);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: btnGlow 2s ease-in-out infinite;
+  transition: transform 0.14s;
+}
+.sos-btn:hover  { transform: scale(1.04); }
+.sos-btn:active { transform: scale(0.95); animation: none; }
+.sos-btn:disabled { opacity: 0.55; cursor: not-allowed; animation: none; }
+
+.ring, .ring2 {
+  position: absolute;
+  inset: -14px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,28,28,0.5);
+  animation: ringPulse 2.2s ease-out infinite;
+  pointer-events: none;
+}
+.ring2 { inset: -28px; border-color: rgba(255,28,28,0.28); animation-delay: 1.1s; }
+
+.btn-inner { display: flex; flex-direction: column; align-items: center; gap: 4px; pointer-events: none; }
+.btn-icon  { font-size: 2.5rem; }
+.btn-label { font-family: var(--font-d); font-size: 1.55rem; letter-spacing: 0.1em; color: #fff; }
+.btn-sub   { font-family: var(--font-m); font-size: 0.62rem; letter-spacing: 0.18em; color: rgba(255,255,255,0.65); }
+
+/* ── Live Emergency Panel (sender side) ───────────────────── */
+.live-panel {
+  width: 100%;
+  background: rgba(255,28,28,0.1);
+  border: 2px solid var(--red);
+  border-radius: var(--radius);
+  padding: 20px 22px;
+  text-align: center;
+  animation: borderFlash 0.65s infinite;
+}
+.live-head  { font-family: var(--font-d); font-size: 1.7rem; letter-spacing: 0.1em; color: var(--red); }
+.live-timer { font-family: var(--font-m); font-size: 3rem;  color: var(--white); letter-spacing: 0.08em; margin: 4px 0; }
+.live-stat  { font-family: var(--font-m); font-size: 0.78rem; color: rgba(255,255,255,0.52); margin-top: 4px; }
+
+/* Coordinates card */
+.coords-card {
+  width: 100%;
+  background: rgba(0,0,0,0.45);
+  border: 1px solid rgba(255,51,51,0.28);
+  border-radius: 8px;
+  padding: 12px 16px;
+}
+.coord-row  { display: flex; justify-content: space-between; align-items: center; padding: 3px 0; }
+.coord-lbl  { font-family: var(--font-m); font-size: 0.62rem; letter-spacing: 0.18em; color: rgba(255,255,255,0.28); }
+.coord-val  { font-family: var(--font-m); font-size: 0.9rem;  color: #FF6666; }
+
+/* Resolve button */
+.resolve-btn {
+  background: transparent;
+  border: 1px solid rgba(0,255,135,0.45);
+  color: var(--green);
+  font-family: var(--font-m);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  padding: 10px 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.18s;
+  width: 100%;
+}
+.resolve-btn:hover { background: rgba(0,255,135,0.09); border-color: var(--green); }
+
+/* Standby hint */
+.sender-hint {
+  font-family: var(--font-b);
+  font-size: 0.88rem;
+  color: rgba(255,255,255,0.22);
+  text-align: center;
+  line-height: 1.55;
+}
+
+/* ── ─────────────── GUARDIAN VIEW ───────────────────────── ── */
+
+.guardian-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding-top: 24px;
+  width: 100%;
+  max-width: 460px;
+  position: relative;
+  z-index: 2;
+  animation: slideUp 0.5s ease both;
+}
+
+/* Standby panel */
+.standby-icon  { font-size: 3.2rem; margin-top: 8px; }
+.standby-title { font-family: var(--font-d); font-size: 2.2rem; letter-spacing: 0.14em; color: var(--blue); }
+.standby-sub   { font-family: var(--font-m); font-size: 0.8rem;  color: rgba(255,255,255,0.35); text-align: center; }
+
+.status-pill {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  background: rgba(0,255,135,0.07);
+  border: 1px solid rgba(0,255,135,0.28);
+  border-radius: 99px;
+  padding: 7px 20px;
+  font-family: var(--font-m);
+  font-size: 0.75rem;
+  color: var(--green);
+  letter-spacing: 0.05em;
+}
+
+.guardian-list-box {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 8px;
+  padding: 14px 18px;
+  width: 100%;
+}
+.gl-title { font-family: var(--font-m); font-size: 0.6rem; letter-spacing: 0.2em; color: rgba(255,255,255,0.22); margin-bottom: 10px; }
+.gl-item  {
+  display: flex; align-items: center; gap: 10px;
+  font-family: var(--font-b); font-size: 0.92rem;
+  color: rgba(255,255,255,0.55);
+  padding: 4px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.gl-item:last-child { border-bottom: none; }
+.gl-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--blue); flex-shrink: 0; }
+
+/* ── Emergency alert card (guardian) ───────────────────────── */
+.emergency-header {
+  width: calc(100% + 32px);
+  margin: -24px -16px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background: rgba(255,28,28,0.22);
+  border-bottom: 2px solid var(--red);
+}
+.alert-lbl   { font-family: var(--font-d); font-size: 1.2rem; letter-spacing: 0.1em; color: var(--red); animation: urgentBlink 0.5s infinite; }
+.alert-timer { font-family: var(--font-m); font-size: 1.1rem; color: var(--white); }
+
+.alert-card {
+  width: 100%;
+  background: rgba(255,28,28,0.1);
+  border: 2px solid var(--red);
+  border-radius: var(--radius);
+  padding: 20px;
+  text-align: center;
+  animation: borderFlash 0.65s infinite;
+}
+.alert-name   { font-family: var(--font-d); font-size: 2.8rem; letter-spacing: 0.14em; color: var(--red); }
+.alert-phone  { font-family: var(--font-m); font-size: 0.82rem; color: rgba(255,255,255,0.42); margin: 4px 0; }
+.alert-urgent { font-family: var(--font-d); font-size: 1.4rem; letter-spacing: 0.1em; color: var(--white); animation: urgentBlink 0.42s infinite; }
+
+/* Action buttons */
+.action-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.act-btn {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  padding: 13px;
+  border-radius: 8px;
+  font-family: var(--font-d);
+  font-size: 1.1rem;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  border: 2px solid;
+  transition: background 0.18s;
+  width: 100%;
+}
+.btn-mute   { border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.07); color: var(--white); }
+.btn-mute:hover   { background: rgba(255,255,255,0.14); }
+.btn-muted  { border-color: rgba(255,165,0,0.45); background: rgba(255,165,0,0.07); color: #FFA500; }
+.btn-muted:hover  { background: rgba(255,165,0,0.13); }
+.btn-call   { border-color: rgba(0,255,135,0.42); background: rgba(0,255,135,0.05); color: var(--green); }
+.btn-call:hover   { background: rgba(0,255,135,0.12); }
+
+/* ── MAP ────────────────────────────────────────────────────── */
+#map {
+  width: 100%;
+  height: 270px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,51,51,0.3);
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+
+.dist-badge {
+  font-family: var(--font-m);
+  font-size: 0.78rem;
+  color: var(--blue);
+  letter-spacing: 0.07em;
+  text-align: center;
+}
+
+/* timestamp */
+.ts-bar {
+  font-family: var(--font-m);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.18);
+  text-align: center;
+}
+
+/* muted notice */
+.muted-notice {
+  width: 100%;
+  text-align: center;
+  background: rgba(255,165,0,0.07);
+  border: 1px solid rgba(255,165,0,0.28);
+  border-radius: 6px;
+  padding: 7px;
+  font-family: var(--font-m);
+  font-size: 0.7rem;
+  color: #FFA500;
+  letter-spacing: 0.07em;
+}
