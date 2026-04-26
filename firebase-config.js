@@ -8,7 +8,7 @@ import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebase
 
 // ── ✏️  PASTE YOUR FIREBASE CONFIG HERE ──────────────────────
 const firebaseConfig = {
-  apiKey:            "sb_publishable_mUIpKpLomdvsOcc_s5HrSg_W-UKOG9t",
+  apiKey:            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxpb2FqcnpneW1ld2twZnZ5enRyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcxNzU1OTksImV4cCI6MjA5Mjc1MTU5OX0.P1cIquSNu8dd9z4HciHQRMdsTQFdc0X4ULkgVoaSRzo",
   authDomain:        "YOUR_PROJECT.firebaseapp.com",
   databaseURL:       "https://lioajrzgymewkpfvyztr.supabase.co",
   projectId:         "YOUR_PROJECT_ID",
