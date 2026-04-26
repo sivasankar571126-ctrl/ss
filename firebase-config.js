@@ -8,9 +8,9 @@ import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebase
 
 // ── ✏️  PASTE YOUR FIREBASE CONFIG HERE ──────────────────────
 const firebaseConfig = {
-  apiKey:            "YOUR_API_KEY",
+  apiKey:            "sb_publishable_mUIpKpLomdvsOcc_s5HrSg_W-UKOG9t",
   authDomain:        "YOUR_PROJECT.firebaseapp.com",
-  databaseURL:       "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
+  databaseURL:       "https://lioajrzgymewkpfvyztr.supabase.co",
   projectId:         "YOUR_PROJECT_ID",
   storageBucket:     "YOUR_PROJECT.appspot.com",
   messagingSenderId: "YOUR_SENDER_ID",
