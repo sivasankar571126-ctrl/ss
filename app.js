@@ -6,7 +6,7 @@ import {
   PATIENT, GUARDIANS,
   activateSOS, resolveSOS, listenSOS,
   CONFIG_MISSING, MISSING_KEYS
-} from './firebase-config.js';
+} from './supabase-config.js';
 
 // ── State ──────────────────────────────────────────────────────
 let currentRole    = null;
