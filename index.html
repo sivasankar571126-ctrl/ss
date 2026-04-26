@@ -16,54 +16,88 @@
   <meta name="apple-mobile-web-app-title"            content="SALIM SOS" />
   <link rel="apple-touch-icon" href="/icons/icon-192.png" />
 
-  <!-- Description -->
   <meta name="description" content="One-tap emergency SOS system for Salim and his guardian network." />
 
-  <!-- Leaflet CSS (free, no API key) -->
-  <link
-    rel="stylesheet"
+  <!-- Leaflet CSS (free maps, no API key) -->
+  <link rel="stylesheet"
     href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-    crossorigin=""
-  />
+    crossorigin="" />
 
-  <!-- App CSS -->
+  <!-- App Styles -->
   <link rel="stylesheet" href="/src/styles.css" />
 
-  <!-- Preconnect for fonts -->
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* Loading spinner — replaced by App.js immediately on success */
+    #loading-screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      gap: 16px;
+      font-family: 'Share Tech Mono', monospace;
+      color: #FF1C1C;
+      background: #050a0e;
+    }
+    .spin { animation: spin 1s linear infinite; font-size: 3rem; display: block; }
+    .load-txt { letter-spacing: 0.2em; font-size: 0.9rem; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
 </head>
 
 <body>
-  <!-- ─── App mount point ─────────────────────────────────── -->
   <div id="app">
-    <!-- Rendered by App.js -->
-    <div style="
-      display:flex; align-items:center; justify-content:center;
-      height:100vh; flex-direction:column; gap:16px;
-      font-family:'Share Tech Mono',monospace; color:#FF1C1C;
-    ">
-      <div style="font-size:3rem; animation:spin 1s linear infinite">⏳</div>
-      <div style="letter-spacing:0.2em; font-size:0.9rem">LOADING SALIM SOS…</div>
+    <div id="loading-screen">
+      <span class="spin">⏳</span>
+      <div class="load-txt">LOADING SALIM SOS…</div>
     </div>
   </div>
 
-  <!-- Leaflet JS (free maps, no API key needed) -->
+  <!-- Leaflet JS -->
   <script
     src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV/XN/WLs="
     crossorigin="">
   </script>
 
-  <!-- Firebase (loaded via ES module in firebase-config.js) -->
+  <!-- HARD TIMEOUT: if App.js fails to load at all, show error after 8s -->
+  <script>
+    window._loadTimeout = setTimeout(function () {
+      var a = document.getElementById('app');
+      if (a && a.innerHTML.includes('LOADING SALIM SOS')) {
+        a.innerHTML = `
+          <div style="
+            display:flex;flex-direction:column;align-items:center;
+            justify-content:center;min-height:100vh;gap:16px;padding:24px;
+            text-align:center;font-family:monospace;background:#050a0e;
+          ">
+            <div style="font-size:3rem">⚠</div>
+            <div style="color:#FF3333;font-size:1.1rem;letter-spacing:0.1em">FAILED TO LOAD</div>
+            <div style="color:rgba(255,255,255,0.45);font-size:0.82rem;max-width:320px;line-height:1.7">
+              App.js or Firebase could not be reached.<br><br>
+              <b style="color:#FFB800">Most likely cause:</b><br>
+              Firebase keys not set in<br>
+              <span style="color:#FF6666">src/firebase-config.js</span><br><br>
+              Check your browser console (F12) for the exact error.
+            </div>
+            <button onclick="location.reload()" style="
+              background:transparent;border:1px solid rgba(255,255,255,0.2);
+              color:rgba(255,255,255,0.55);font-family:monospace;
+              font-size:0.8rem;letter-spacing:0.1em;
+              padding:10px 24px;border-radius:6px;cursor:pointer;
+            ">↺ RELOAD</button>
+          </div>`;
+      }
+    }, 8000);
+  </script>
 
-  <!-- Main app (ES module) -->
+  <!-- Main App (ES module — loads firebase-config.js internally) -->
   <script type="module" src="/src/App.js"></script>
-
-  <!-- Inline loading spinner keyframe -->
-  <style>
-    @keyframes spin { to { transform: rotate(360deg); } }
-  </style>
 </body>
 </html>
